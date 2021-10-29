@@ -9,7 +9,7 @@ import Header from "./components/Header";
 import { Container, Grid, TextField, CssBaseline, Button } from "@mui/material";
 // import CreateTodo from "./components/todo/CreateTodo";
 import Routes from "./Routes";
-
+import { SnackbarProvider } from "notistack";
 const ColorModeContext = React.createContext({ toggleColorMode: () => {} });
 
 function MyApp() {
@@ -17,13 +17,15 @@ function MyApp() {
   const colorMode = React.useContext(ColorModeContext);
   return (
     <Router>
-      <Box>
-        <Header colorMode={colorMode} theme={theme} />
-        <CssBaseline />
-        <Container maxWidth="md" sx={{ marginTop: 2 }}>
-          <Routes />
-        </Container>
-      </Box>
+      <SnackbarProvider maxSnack={3}>
+        <Box>
+          <Header colorMode={colorMode} theme={theme} />
+          <CssBaseline />
+          <Container maxWidth="md" sx={{ marginTop: 2 }}>
+            <Routes />
+          </Container>
+        </Box>
+      </SnackbarProvider>
     </Router>
   );
 }

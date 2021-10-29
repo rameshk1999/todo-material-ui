@@ -4,7 +4,10 @@ import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
-import { useGetAllTodosQuery } from "../../services/todoService";
+import {
+  useDeleteTodoMutation,
+  useGetAllTodosQuery,
+} from "../../services/todoService";
 import {
   Divider,
   IconButton,
@@ -16,19 +19,47 @@ import {
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import { useSnackbar } from "notistack";
 
 export default function LabTabs() {
   const [value, setValue] = React.useState("1");
-  let [pendingTodos, setPendingTodos] = React.useState();
+  const { enqueueSnackbar } = useSnackbar();
   const { data, isError, isFetching, isLoading, isSuccess } =
     useGetAllTodosQuery();
+  const [deleteTodo, response] = useDeleteTodoMutation();
   let todos = isSuccess && data && data.data;
 
-  if (todos && todos.completed === false) {
-    setPendingTodos(todos);
-  }
+  let filteredTodo =
+    todos &&
+    todos.length > 0 &&
+    todos.filter((todo) => todo.completed === true);
+
+  let pendingTodos =
+    todos &&
+    todos.length > 0 &&
+    todos.filter((todo) => todo.completed === false);
   const handleChange = (event, newValue) => {
     setValue(newValue);
+  };
+  const handleDeleteVariant = (variant) => {
+    // variant could be success, error, warning, info, or default
+    enqueueSnackbar("Todo Deleted", {
+      variant,
+    });
+  };
+
+  const handleDeleteTodo = (id) => {
+    console.log("dleted", id);
+    deleteTodo(id).then((res) => {
+      console.log("deleted", res);
+      if (res.data.status === 200) {
+        handleDeleteVariant("success");
+        // window reload after sometime
+        window.setTimeout(function () {
+          window.location.reload();
+        }, 2000);
+      }
+    });
   };
 
   return (
@@ -52,9 +83,9 @@ export default function LabTabs() {
             >
               {" "}
               {todos.map((todo) => {
-                let { title, createdAt, completed } = todo;
+                let { title, createdAt, completed, _id } = todo;
                 return (
-                  <ListItem>
+                  <ListItem key={_id}>
                     <ListItemText
                       primary={title}
                       secondary={
@@ -74,7 +105,7 @@ export default function LabTabs() {
                     <IconButton>
                       <EditIcon />
                     </IconButton>
-                    <IconButton>
+                    <IconButton onClick={() => handleDeleteTodo(_id)}>
                       <DeleteIcon />
                     </IconButton>
                     <Divider sx={{ color: "white" }} />
@@ -89,12 +120,12 @@ export default function LabTabs() {
             <List
               sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
             >
-              {pendingTodos &&
-                pendingTodos.length > 0 &&
-                pendingTodos.map((todo) => {
-                  let { title, createdAt, completed } = todo;
+              {filteredTodo &&
+                filteredTodo.length > 0 &&
+                filteredTodo.map((todo) => {
+                  let { title, createdAt, completed, _id } = todo;
                   return (
-                    <ListItem>
+                    <ListItem key={_id}>
                       <ListItemText
                         primary={title}
                         secondary={
@@ -114,18 +145,56 @@ export default function LabTabs() {
                       <IconButton>
                         <EditIcon />
                       </IconButton>
-                      <IconButton>
+                      <IconButton onClick={() => handleDeleteTodo(_id)}>
                         <DeleteIcon />
                       </IconButton>
                       <Divider sx={{ color: "white" }} />
                     </ListItem>
                   );
                 })}
-              <ListItem>hello</ListItem>
             </List>
           )}
         </TabPanel>
-        <TabPanel value="3">Item Three</TabPanel>
+        <TabPanel value="3">
+          {isSuccess && !isError && todos && todos.length > 0 && (
+            <List
+              sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
+            >
+              {pendingTodos &&
+                pendingTodos.length > 0 &&
+                pendingTodos.map((todo) => {
+                  let { title, createdAt, completed, _id } = todo;
+                  return (
+                    <ListItem key={_id}>
+                      <ListItemText
+                        primary={title}
+                        secondary={
+                          <React.Fragment>
+                            <Typography
+                              sx={{ display: "inline" }}
+                              component="span"
+                              variant="body2"
+                              color="text.primary"
+                            >
+                              {createdAt.split("T")[0]}
+                            </Typography>
+                            {completed ? "   Completed" : "   Pending"}
+                          </React.Fragment>
+                        }
+                      />
+                      <IconButton>
+                        <EditIcon />
+                      </IconButton>
+                      <IconButton onClick={() => handleDeleteTodo(_id)}>
+                        <DeleteIcon />
+                      </IconButton>
+                      <Divider sx={{ color: "white" }} />
+                    </ListItem>
+                  );
+                })}
+            </List>
+          )}
+        </TabPanel>
       </TabContext>
     </Box>
   );
