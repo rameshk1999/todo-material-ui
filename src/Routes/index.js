@@ -4,6 +4,7 @@ import { Route, Switch } from "react-router-dom";
 import Add from "../components/movies/Add";
 import Watched from "../components/movies/Watched";
 import WatchList from "../components/movies/WatchList";
+import AddTodo from "../components/todo/AddTodo";
 import TodoList from "../components/todo/TodoList";
 // import CreateTodo from "../components/todo/CreateTodo";
 
@@ -32,6 +33,9 @@ const index = () => {
         </Route>
         <Route exact path="/add">
           <Add />
+        </Route>
+        <Route exact path="/addtodo">
+          <AddTodo />
         </Route>
       </Switch>
     </div>

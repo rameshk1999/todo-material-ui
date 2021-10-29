@@ -227,7 +227,7 @@ export default function PrimarySearchAppBar({
                 Watclist
               </Typography>
             </Link>
-            <Link to="/add">
+            <Link to="/addtodo">
               <Typography
                 sx={{
                   textDecorationLine: "none",
@@ -237,7 +237,7 @@ export default function PrimarySearchAppBar({
                   marginX: 2,
                 }}
               >
-                Add
+                Add Todo
               </Typography>
             </Link>
             <IconButton
