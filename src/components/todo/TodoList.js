@@ -59,7 +59,7 @@ export default function LabTabs() {
         // window reload after sometime
         window.setTimeout(function () {
           window.location.reload();
-        }, 2000);
+        }, 1000);
       }
     });
   };
