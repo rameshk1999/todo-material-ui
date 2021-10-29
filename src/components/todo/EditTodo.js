@@ -40,6 +40,7 @@ const AddTodo = () => {
   }, [id]);
 
   let payload = {
+    id,
     title,
     completed: checked,
     email: "ramesh@gmail.com",
@@ -52,21 +53,22 @@ const AddTodo = () => {
   };
 
   const handleSubmit = () => {
-    // updateTodo(payload).then((res) => {
-    //   console.log(res);
-    //   if (res.data.status === 201) {
-    //     handleSuccessVariant("success");
-    //     // window reload after sometime
-    //     window.setTimeout(function () {
-    //       history.push("/");
-    //       window.location.reload();
-    //     }, 2000);
-    //   }
-    // });
-
-    setTitle("");
-    setChecked(false);
-    history.push("/");
+    console.log("clicked");
+    updateTodo(payload)
+      .then((res) => {
+        console.log(res);
+        if (res.data.status === 200) {
+          handleSuccessVariant("success");
+          // window reload after sometime
+          window.setTimeout(function () {
+            history.push("/");
+            window.location.reload();
+          }, 1000);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
   return (
     <Box marginY={2}>
@@ -103,7 +105,7 @@ const AddTodo = () => {
                 onClick={handleSubmit}
                 disabled={!title}
               >
-                Add Todo
+                Update Todo
               </Button>
             </Paper>
           </Grid>

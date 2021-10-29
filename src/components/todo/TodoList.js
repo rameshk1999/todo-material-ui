@@ -146,9 +146,11 @@ export default function LabTabs() {
                           </React.Fragment>
                         }
                       />
-                      <IconButton>
-                        <EditIcon />
-                      </IconButton>
+                      <Link to={`/edit/${_id}`}>
+                        <IconButton>
+                          <EditIcon />
+                        </IconButton>
+                      </Link>
                       <IconButton onClick={() => handleDeleteTodo(_id)}>
                         <DeleteIcon />
                       </IconButton>
@@ -186,9 +188,11 @@ export default function LabTabs() {
                           </React.Fragment>
                         }
                       />
-                      <IconButton>
-                        <EditIcon />
-                      </IconButton>
+                      <Link to={`/edit/${_id}`}>
+                        <IconButton>
+                          <EditIcon />
+                        </IconButton>
+                      </Link>
                       <IconButton onClick={() => handleDeleteTodo(_id)}>
                         <DeleteIcon />
                       </IconButton>

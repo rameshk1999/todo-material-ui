@@ -57,12 +57,12 @@ export const todoApi = createApi({
       },
     }),
     updateTodo: builder.mutation({
-      query: (id, newPost) => {
-        console.log("call", id, newPost);
+      query: (newPost) => {
+        let { id, ...data } = newPost;
         return {
-          url: `/todos/update?id=${id}`,
+          url: `/todos/update/${id}`,
           method: "PUT",
-          body: newPost,
+          body: data,
         };
       },
     }),
