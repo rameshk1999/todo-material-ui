@@ -16,7 +16,7 @@ export const todoApi = createApi({
 
     getTodoById: builder.query({
       query: (id) => ({
-        url: `/todo/get/${id}`,
+        url: `/todos/get/${id}`,
         method: "GET",
       }),
     }),
@@ -56,6 +56,16 @@ export const todoApi = createApi({
         };
       },
     }),
+    updateTodo: builder.mutation({
+      query: (id, newPost) => {
+        console.log("call", id, newPost);
+        return {
+          url: `/todos/update?id=${id}`,
+          method: "PUT",
+          body: newPost,
+        };
+      },
+    }),
   }),
 });
 
@@ -65,4 +75,5 @@ export const {
   useDeleteTodoMutation,
   useGetTodoByEmailQuery,
   useGetTodoByIdQuery,
+  useUpdateTodoMutation,
 } = todoApi;

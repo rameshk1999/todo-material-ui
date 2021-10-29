@@ -6,6 +6,8 @@ import Watched from "../components/movies/Watched";
 import WatchList from "../components/movies/WatchList";
 import AddTodo from "../components/todo/AddTodo";
 import TodoList from "../components/todo/TodoList";
+import EditTodo from "../components/todo/EditTodo";
+
 // import CreateTodo from "../components/todo/CreateTodo";
 
 const index = () => {
@@ -36,6 +38,9 @@ const index = () => {
         </Route>
         <Route exact path="/addtodo">
           <AddTodo />
+        </Route>
+        <Route exact path="/edit/:id">
+          <EditTodo />
         </Route>
       </Switch>
     </div>

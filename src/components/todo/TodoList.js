@@ -20,10 +20,12 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { useSnackbar } from "notistack";
+import { Link, useHistory } from "react-router-dom";
 
 export default function LabTabs() {
   const [value, setValue] = React.useState("1");
   const { enqueueSnackbar } = useSnackbar();
+  let history = useHistory();
   const { data, isError, isFetching, isLoading, isSuccess } =
     useGetAllTodosQuery();
   const [deleteTodo, response] = useDeleteTodoMutation();
@@ -102,9 +104,11 @@ export default function LabTabs() {
                         </React.Fragment>
                       }
                     />
-                    <IconButton>
-                      <EditIcon />
-                    </IconButton>
+                    <Link to={`/edit/${_id}`}>
+                      <IconButton>
+                        <EditIcon />
+                      </IconButton>
+                    </Link>
                     <IconButton onClick={() => handleDeleteTodo(_id)}>
                       <DeleteIcon />
                     </IconButton>

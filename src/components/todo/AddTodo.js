@@ -26,7 +26,7 @@ const AddTodo = () => {
   };
   const handleSuccessVariant = (variant) => {
     // variant could be success, error, warning, info, or default
-    enqueueSnackbar("Todo Deleted", {
+    enqueueSnackbar("Todo Created", {
       variant,
     });
   };
